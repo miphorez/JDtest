@@ -4,7 +4,7 @@ uses
   JNIUtils in 'units\JNIUtils.pas',
   CallJava in 'units\CallJava.pas',
   JNI in 'units\JNI.pas',
-  Windows, SysUtils;
+  Windows, SysUtils, Forms;
 
 var
   strMetod, strSign, strArg, strResult:string;
@@ -16,7 +16,7 @@ try
   //запускJavaVM
   CallJava.createJavaEnv();
   if CallJava.strErr<>'' then begin
-    MessageBox(0, PChar(Format('Ошибка: %s', [CallJava.strErr])),
+    Application.MessageBox(PChar(Format('Ошибка: %s', [CallJava.strErr])),
     'Error JVM',MB_ICONERROR);
     Exit;
   end;
@@ -25,7 +25,7 @@ try
   //перед именем класса обязательно указать расположение пакета, заменив "." на "/"
   jCls:= CallJava.getJavaClass('com/test/javafordelphi/JavaClassForDelphiTest');
   if CallJava.strErr<>'' then begin
-    MessageBox(0, PChar(Format('Ошибка: %s', [CallJava.strErr])),
+    Application.MessageBox(PChar(Format('Ошибка: %s', [CallJava.strErr])),
     'Error JVM',MB_ICONERROR);
     Exit;
   end;
@@ -40,13 +40,13 @@ try
             isStaticMetod);
   //результат
   if strResult<>'' then
-    MessageBox(0, PChar(strResult), '',MB_OK) else
-    MessageBox(0, PChar(Format('Ошибка вызова метода: %s', [strMetod])),
+    Application.MessageBox(PChar(strResult), 'JavaClassForDelphiTest.goTest',MB_OK) else
+    Application.MessageBox(PChar(Format('Ошибка вызова метода: %s', [strMetod])),
     'Error JVM',MB_ICONERROR);
 
 except
   on E : Exception do begin
-    MessageBox(0, PChar(Format('Непредвиденная ошибка: %s', [E.Message])),
+    Application.MessageBox(PChar(Format('Непредвиденная ошибка: %s', [E.Message])),
     'Error JVM',MB_ICONERROR);
   end;
 end;
